@@ -17,7 +17,7 @@ Acesse a versão online: **[https://santri-workout.vercel.app](https://santri-wo
 
 ## 🚀 Funcionalidades
 
--   **Sistema de Login Seguro:** Acesso restrito via usuário e senha (ID: 881 / Pass: 123).
+-   **Sistema de Login Seguro:** Acesso restrito via usuário e senha (ID: admin / Pass: 123).
 -   **Dashboard de Atividades:** Visualização circular da intensidade de treinos (Corrida, Ciclismo e Musculação).
 -   **Submenu Inteligente:** Navegação rápida entre treinos atuais e histórico de fichas.
 -   **Gestão de Macros:** Seção dedicada para controle de dieta.
