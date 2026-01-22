@@ -41,7 +41,7 @@ Este projeto foi construído utilizando o que há de mais moderno no ecossistema
 
 | Usuário | Senha |
 | :--- | :--- |
-| **881** | **123** |
+| **admin** | **123** |
 
 ---
 
