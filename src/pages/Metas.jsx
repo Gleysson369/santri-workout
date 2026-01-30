@@ -1,7 +1,59 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function Metas() {
   const [abaAtiva, setAbaAtiva] = useState('mensal');
+
+  // Estado inicial com estrutura para todas as categorias e períodos
+  const [metas, setMetas] = useState({
+    semanal: {
+      esporte: { distancia: '', tempo: '', treinos: '', vitorias: '' },
+      musculacao: { frequencia: '', volume: '', pr: '' },
+      dieta: { kcal: '', carbo: '', prot: '', gord: '', agua: '', peso: '' }
+    },
+    mensal: {
+      esporte: { distancia: '', tempo: '', treinos: '', vitorias: '' },
+      musculacao: { frequencia: '', volume: '', pr: '' },
+      dieta: { kcal: '', carbo: '', prot: '', gord: '', agua: '', peso: '' }
+    },
+    anual: {
+      esporte: { distancia: '', tempo: '', treinos: '', vitorias: '' },
+      musculacao: { frequencia: '', volume: '', pr: '' },
+      dieta: { kcal: '', carbo: '', prot: '', gord: '', agua: '', peso: '' }
+    }
+  });
+
+  // Carregar dados salvos
+  useEffect(() => {
+    const saved = localStorage.getItem('santri_metas_db');
+    if (saved) {
+      try {
+        setMetas(JSON.parse(saved));
+      } catch (e) {
+        console.error("Erro ao carregar metas", e);
+      }
+    }
+  }, []);
+
+  const handleChange = (categoria, campo, valor) => {
+    setMetas(prev => ({
+      ...prev,
+      [abaAtiva]: {
+        ...prev[abaAtiva],
+        [categoria]: {
+          ...prev[abaAtiva][categoria],
+          [campo]: valor
+        }
+      }
+    }));
+  };
+
+  const salvarMetas = () => {
+    localStorage.setItem('santri_metas_db', JSON.stringify(metas));
+    alert(`Metas ${abaAtiva}s atualizadas e sincronizadas!`);
+  };
+
+  // Helper para acessar os dados atuais de forma limpa
+  const dadosAtuais = metas[abaAtiva];
 
   return (
     <div className="animate-fadeIn pb-10">
@@ -31,51 +83,103 @@ export function Metas() {
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
         
-        {/* COLUNA 1: CORRIDA E CICLISMO */}
+        {/* COLUNA 1: ESPORTES E MUSCULAÇÃO */}
         <div className="space-y-8">
-          {/* METAS CORRIDA */}
-          <MetaSection title="Corrida" icon="fa-running" color="text-orange-500">
-            <MetaInput label="Ritmo Alvo (Pace)" unit="min/km" placeholder="4:30" />
-            <MetaInput label="Velocidade Média" unit="km/h" placeholder="12.5" />
-            <MetaInput label="Freq. Cardíaca Alvo" unit="bpm" placeholder="155" />
-            <MetaInput label="Cadência Média" unit="spm" placeholder="180" />
-            <MetaInput label="Ganho de Elevação" unit="m" placeholder="500" />
-            <MetaInput label="Tempo em Zona 2" unit="min" placeholder="120" />
+          {/* METAS ESPORTES */}
+          <MetaSection title="Esportes (Geral)" icon="fa-trophy" color="text-orange-500">
+            <MetaInput 
+              label="Distância Alvo" unit="km" placeholder="Ex: 50" 
+              value={dadosAtuais.esporte.distancia} 
+              onChange={(v) => handleChange('esporte', 'distancia', v)} 
+            />
+            <MetaInput 
+              label="Tempo em Atividade" unit="horas" placeholder="Ex: 5" 
+              value={dadosAtuais.esporte.tempo} 
+              onChange={(v) => handleChange('esporte', 'tempo', v)} 
+            />
+            <MetaInput 
+              label="Qtd. Treinos" unit="sessões" placeholder="Ex: 4" 
+              value={dadosAtuais.esporte.treinos} 
+              onChange={(v) => handleChange('esporte', 'treinos', v)} 
+            />
+            <MetaInput 
+              label="Vitórias (Competitivo)" unit="vitórias" placeholder="Ex: 2" 
+              value={dadosAtuais.esporte.vitorias} 
+              onChange={(v) => handleChange('esporte', 'vitorias', v)} 
+            />
           </MetaSection>
 
-          {/* METAS CICLISMO */}
-          <MetaSection title="Ciclismo" icon="fa-bicycle" color="text-cyan-400">
-            <MetaInput label="Potência Média (NP)" unit="watts" placeholder="250" />
-            <MetaInput label="Ganho de Elevação" unit="m" placeholder="1200" />
-            <MetaInput label="Vel. Média Sustentada" unit="km/h" placeholder="30.0" />
-            <MetaInput label="Zonas de Esforço" unit="h/semana" placeholder="10" />
+          {/* METAS MUSCULAÇÃO */}
+          <MetaSection title="Musculação & Força" icon="fa-dumbbell" color="text-red-500">
+            <MetaInput 
+              label="Frequência de Treino" unit="dias" placeholder="Ex: 5" 
+              value={dadosAtuais.musculacao.frequencia} 
+              onChange={(v) => handleChange('musculacao', 'frequencia', v)} 
+            />
+            <MetaInput 
+              label="Volume de Carga Total" unit="kg" placeholder="Ex: 50000" 
+              value={dadosAtuais.musculacao.volume} 
+              onChange={(v) => handleChange('musculacao', 'volume', v)} 
+            />
+            <MetaInput 
+              label="Novos Recordes (PRs)" unit="qtd" placeholder="Ex: 1" 
+              value={dadosAtuais.musculacao.pr} 
+              onChange={(v) => handleChange('musculacao', 'pr', v)} 
+            />
           </MetaSection>
         </div>
 
-        {/* COLUNA 2: MUSCULAÇÃO E GERAIS */}
+        {/* COLUNA 2: DIETA E SAÚDE */}
         <div className="space-y-8">
-          {/* METAS MUSCULAÇÃO */}
-          <MetaSection title="Musculação" icon="fa-dumbbell" color="text-red-500">
-            <MetaInput label="Volume Total (S x R x C)" unit="kg" placeholder="50000" />
-            <MetaInput label="Repetições Máximas (RM)" unit="kg" placeholder="120" />
-            <MetaInput label="Tempo Sob Tensão (TUT)" unit="seg" placeholder="45" />
-            <MetaInput label="Frequência por Músculo" unit="x/semana" placeholder="2" />
+          {/* METAS DIETA */}
+          <MetaSection title="Dieta & Nutrição" icon="fa-utensils" color="text-emerald-400">
+            <MetaInput 
+              label="Meta Calórica (Média)" unit="kcal" placeholder="Ex: 2500" 
+              value={dadosAtuais.dieta.kcal} 
+              onChange={(v) => handleChange('dieta', 'kcal', v)} 
+            />
+            <div className="grid grid-cols-3 gap-2">
+              <MetaInput 
+                label="Carboidratos" unit="g" placeholder="250" 
+                value={dadosAtuais.dieta.carbo} 
+                onChange={(v) => handleChange('dieta', 'carbo', v)} 
+              />
+              <MetaInput 
+                label="Proteínas" unit="g" placeholder="180" 
+                value={dadosAtuais.dieta.prot} 
+                onChange={(v) => handleChange('dieta', 'prot', v)} 
+              />
+              <MetaInput 
+                label="Gorduras" unit="g" placeholder="70" 
+                value={dadosAtuais.dieta.gord} 
+                onChange={(v) => handleChange('dieta', 'gord', v)} 
+              />
+            </div>
+            <MetaInput 
+              label="Consumo de Água" unit="ml" placeholder="Ex: 3000" 
+              value={dadosAtuais.dieta.agua} 
+              onChange={(v) => handleChange('dieta', 'agua', v)} 
+            />
           </MetaSection>
 
-          {/* METAS FÍSICAS GERAIS */}
-          <MetaSection title="Físico & Saúde" icon="fa-heartbeat" color="text-emerald-400">
-            <MetaInput label="Regularidade" unit="dias/mês" placeholder="22" />
-            <MetaInput label="Qualidade Recuperação" unit="%" placeholder="90" />
-            <MetaInput label="Gordura Corporal" unit="%" placeholder="12" />
-            <MetaInput label="Peso Alvo" unit="kg" placeholder="85" />
+          {/* METAS FÍSICAS */}
+          <MetaSection title="Composição Corporal" icon="fa-weight" color="text-cyan-400">
+            <MetaInput 
+              label="Peso Alvo" unit="kg" placeholder="Ex: 80.5" 
+              value={dadosAtuais.dieta.peso} 
+              onChange={(v) => handleChange('dieta', 'peso', v)} 
+            />
           </MetaSection>
         </div>
 
       </div>
       
-      {/* BOTÃO SALVAR FIXO NO RODAPÉ DA PÁGINA */}
+      {/* BOTÃO SALVAR */}
       <div className="mt-10 flex justify-end">
-        <button className="bg-white text-black font-black px-10 py-4 rounded-full uppercase italic hover:bg-red-600 hover:text-white transition-all shadow-xl">
+        <button 
+          onClick={salvarMetas}
+          className="bg-white text-black font-black px-10 py-4 rounded-full uppercase italic hover:bg-red-600 hover:text-white transition-all shadow-xl cursor-pointer"
+        >
           Salvar Metas {abaAtiva}s
         </button>
       </div>
@@ -98,14 +202,16 @@ function MetaSection({ title, icon, color, children }) {
   );
 }
 
-function MetaInput({ label, unit, placeholder }) {
+function MetaInput({ label, unit, placeholder, value, onChange }) {
   return (
-    <div className="bg-black/30 p-3 rounded-lg border border-white/5 hover:border-white/10 transition-colors">
+    <div className="bg-black/30 p-3 rounded-lg border border-white/5 hover:border-white/10 transition-colors w-full">
       <label className="text-[10px] text-gray-500 uppercase font-bold block mb-1">{label}</label>
       <div className="flex items-center gap-2">
         <input 
           type="text" 
           placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
           className="bg-transparent text-white font-bold italic w-full outline-none focus:text-red-500 transition-colors"
         />
         <span className="text-[9px] text-gray-600 font-black uppercase italic">{unit}</span>

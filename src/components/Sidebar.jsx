@@ -3,12 +3,10 @@ import { Link, useLocation } from 'react-router-dom';
 
 export function Sidebar({ onLogout }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  // Estado para controlar se o submenu de musculação está aberto
-  const [musculacaoOpen, setMusculacaoOpen] = useState(false);
   const location = useLocation();
 
   return (
-    <aside className={`${isCollapsed ? 'w-20' : 'w-64'} bg-[#0f0f0f]/90 border-r border-red-500/20 h-screen transition-all duration-300 flex flex-col sticky top-0 z-50`}>
+    <aside className={`${isCollapsed ? 'w-20' : 'w-64'} bg-[#0f0f0f]/80 backdrop-blur-md border-r border-red-500/20 h-screen transition-all duration-300 flex flex-col sticky top-0 z-50`}>
       
       {/* BOTÃO COLAPSO */}
       <div className="p-4 mb-6 flex justify-end">
@@ -21,57 +19,21 @@ export function Sidebar({ onLogout }) {
       <nav className="flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
         <ul className="space-y-1">
           <NavItem to="/" icon="fa-home" label="Home" isCollapsed={isCollapsed} active={location.pathname === "/"} />
-          <NavItem to="/corrida" icon="fa-running" label="Corrida" isCollapsed={isCollapsed} active={location.pathname === "/corrida"} />
-          <NavItem to="/ciclismo" icon="fa-bicycle" label="Ciclismo" isCollapsed={isCollapsed} active={location.pathname === "/ciclismo"} />
           
-          {/* MENU PAI: MUSCULAÇÃO COM SUBMENU */}
-          <li>
-            <button 
-              onClick={() => {
-                if(isCollapsed) setIsCollapsed(false); 
-                setMusculacaoOpen(!musculacaoOpen);
-              }}
-              className={`w-full flex items-center p-4 transition-all border-l-4 cursor-pointer group
-                ${(location.pathname === "/musculacao" || location.pathname === "/MinhasFichas") 
-                  ? 'text-red-500 bg-red-500/5 border-red-500 shadow-[inset_10px_0_15px_-10px_rgba(239,68,68,0.2)]' 
-                  : 'text-gray-400 border-transparent hover:text-red-400 hover:bg-white/5'}
-              `}
-            >
-              <i className="fas fa-dumbbell min-w-[32px] text-center text-lg"></i>
-              {!isCollapsed && (
-                <>
-                  <span className="ml-4 font-medium italic uppercase tracking-wider text-sm flex-1 text-left">Musculação</span>
-                  <i className={`fas fa-chevron-down text-[10px] transition-transform duration-300 ${musculacaoOpen ? 'rotate-180' : ''}`}></i>
-                </>
-              )}
-            </button>
+          {/* ABA UNIFICADA: ESPORTES */}
+          <NavItem 
+            to="/esportes" 
+            icon="fa-trophy" 
+            label="Esportes" 
+            isCollapsed={isCollapsed} 
+            active={location.pathname === "/esportes"} 
+          />
+          
+          <NavItem to="/musculacao" icon="fa-dumbbell" label="Musculação" isCollapsed={isCollapsed} active={location.pathname === "/musculacao"} />
 
-            {/* SUBMENU MUSCULAÇÃO */}
-            {musculacaoOpen && !isCollapsed && (
-              <ul className="bg-black/40 border-y border-white/5 animate-slideDown">
-                <NavItem 
-                  to="/musculacao" 
-                  icon="fa-play-circle" 
-                  label="Treinar Agora" 
-                  isCollapsed={isCollapsed} 
-                  active={location.pathname === "/musculacao"}
-                  isSubItem 
-                />
-                <NavItem 
-                  to="/MinhasFichas" 
-                  icon="fa-file-invoice" 
-                  label="Minhas Fichas" 
-                  isCollapsed={isCollapsed} 
-                  active={location.pathname === "/MinhasFichas"}
-                  isSubItem 
-                />
-              </ul>
-            )}
-          </li>
-
+          <NavItem to="/dieta" icon="fa-utensils" label="Dieta" isCollapsed={isCollapsed} active={location.pathname === "/dieta"} />
           <NavItem to="/MeusTreinos" icon="fa-clipboard-list" label="Meus Treinos" isCollapsed={isCollapsed} active={location.pathname === "/MeusTreinos"} />
           <NavItem to="/metas" icon="fa-bullseye" label="Metas" isCollapsed={isCollapsed} active={location.pathname === "/metas"} />
-          <NavItem to="/dieta" icon="fa-utensils" label="Dieta" isCollapsed={isCollapsed} active={location.pathname === "/dieta"} />
         </ul>
       </nav>
 
@@ -91,7 +53,7 @@ export function Sidebar({ onLogout }) {
   );
 }
 
-// COMPONENTE DE ITEM DE MENU
+// COMPONENTE DE ITEM DE MENU (Permanece igual)
 function NavItem({ icon, label, isCollapsed, to, active, isSubItem }) {
   return (
     <li>

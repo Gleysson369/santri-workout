@@ -7,32 +7,56 @@ export function MeusTreinos() {
   const treinos = [
     {
       id: 1,
-      tipo: 'corrida',
+      origem: 'esporte',
+      modalidade: 'Corrida',
+      tipoRegistro: 'distancia',
       data: '20/01/2026',
-      usuario: 'GLEYSSON FLAVIO GOMES DE SOUZA',
-      distancia: '6.73 km',
-      tempo: '01:04:00',
-      pace: '09:30/km',
-      velMedia: '6.31 km/h',
+      usuario: 'GLEYSSON FLAVIO',
+      dados: {
+        distancia: '6.73 km',
+        tempo: '01:04:00',
+        pace: '09:30/km',
+        velMedia: '6.31 km/h'
+      },
       obs: 'Treino com o filho.',
       icon: 'fas fa-running'
     },
     {
       id: 2,
-      tipo: 'musculacao',
+      origem: 'musculacao',
+      modalidade: 'Musculação',
       data: '21/01/2026',
-      usuario: 'GLEYSSON FLAVIO GOMES DE SOUZA',
-      modalidade: 'Bodybuilding',
-      divisao: 'Superiores',
-      tempo: '01:00:00',
+      usuario: 'GLEYSSON FLAVIO',
+      dados: {
+        ficha: 'Hiper Foco',
+        treino: 'Treino A (Peito e Tríceps)',
+        tempo: '01:00:00',
+        series: 24
+      },
       obs: 'Foco total na progressão de carga.',
-      icon: 'fas fa-dumbbell'
+      icon: 'fas fa-dumbbell',
+      imagem: 'https://images.unsplash.com/photo-1581009146145-b5ef03a7403f?w=400'
+    },
+    {
+      id: 3,
+      origem: 'esporte',
+      modalidade: 'Tênis',
+      tipoRegistro: 'pontos',
+      data: '22/01/2026',
+      usuario: 'GLEYSSON FLAVIO',
+      dados: {
+        placarMeu: 6,
+        placarAdv: 4,
+        resultado: 'Vitória'
+      },
+      obs: 'Partida difícil contra o João.',
+      icon: 'fas fa-table-tennis'
     }
   ];
 
   const treinosFiltrados = filtro === 'todas' 
     ? treinos 
-    : treinos.filter(t => t.tipo === filtro);
+    : treinos.filter(t => t.modalidade.toLowerCase() === filtro || t.origem === filtro);
 
   return (
     <div className="animate-fadeIn">
@@ -48,8 +72,7 @@ export function MeusTreinos() {
       {/* SISTEMA DE ABAS (Baseado na sua imagem) */}
       <div className="flex flex-wrap gap-2 mb-8 p-1 bg-black/20 w-fit rounded-lg border border-white/5">
         <TabButton active={filtro === 'todas'} onClick={() => setFiltro('todas')} label="Todas" />
-        <TabButton active={filtro === 'corrida'} onClick={() => setFiltro('corrida')} label="Corrida" icon="fas fa-running" />
-        <TabButton active={filtro === 'ciclismo'} onClick={() => setFiltro('ciclismo')} label="Ciclismo" icon="fas fa-bicycle" />
+        <TabButton active={filtro === 'esporte'} onClick={() => setFiltro('esporte')} label="Esportes" icon="fas fa-running" />
         <TabButton active={filtro === 'musculacao'} onClick={() => setFiltro('musculacao')} label="Musculação" icon="fas fa-dumbbell" />
       </div>
 
@@ -66,17 +89,54 @@ export function MeusTreinos() {
               {treino.usuario}
             </h4>
 
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col md:flex-row gap-6">
+              {/* Se tiver imagem, exibe */}
+              {treino.imagem && (
+                <div className="w-full md:w-32 h-32 rounded-lg overflow-hidden border border-white/10 shrink-0">
+                  <img src={treino.imagem} alt="Registro" className="w-full h-full object-cover" />
+                </div>
+              )}
+
+              <div className="flex-1 flex flex-col gap-4">
               <div className="flex items-center gap-2 text-white font-bold italic">
                 <i className={`${treino.icon} text-red-500`}></i>
-                <span>{treino.distancia || treino.modalidade}</span>
+                <span>{treino.modalidade}</span>
+                {treino.origem === 'musculacao' && <span className="text-gray-500 text-sm">• {treino.dados.ficha}</span>}
               </div>
 
               {/* Badges de estatísticas (conforme imagem) */}
               <div className="flex flex-wrap gap-2">
-                <StatBadge icon="fas fa-clock" label="Tempo" value={treino.tempo} color="bg-blue-600" />
-                {treino.pace && <StatBadge icon="fas fa-bolt" label="Pace" value={treino.pace} color="bg-blue-600" />}
-                {treino.velMedia && <StatBadge icon="fas fa-rocket" label="Vel. média" value={treino.velMedia} color="bg-blue-600" />}
+                
+                {/* DADOS DE MUSCULAÇÃO */}
+                {treino.origem === 'musculacao' && (
+                  <>
+                    <StatBadge icon="fas fa-clock" label="Duração" value={treino.dados.tempo} color="bg-blue-600" />
+                    <StatBadge icon="fas fa-layer-group" label="Divisão" value={treino.dados.treino} color="bg-red-600" />
+                    <StatBadge icon="fas fa-list-ol" label="Séries" value={treino.dados.series} color="bg-gray-600" />
+                  </>
+                )}
+
+                {/* DADOS DE ESPORTE (DISTÂNCIA) */}
+                {treino.origem === 'esporte' && treino.tipoRegistro === 'distancia' && (
+                  <>
+                    <StatBadge icon="fas fa-road" label="Distância" value={treino.dados.distancia} color="bg-green-600" />
+                    <StatBadge icon="fas fa-clock" label="Tempo" value={treino.dados.tempo} color="bg-blue-600" />
+                    <StatBadge icon="fas fa-bolt" label="Pace" value={treino.dados.pace} color="bg-yellow-600" />
+                  </>
+                )}
+
+                {/* DADOS DE ESPORTE (PONTOS) */}
+                {treino.origem === 'esporte' && treino.tipoRegistro === 'pontos' && (
+                  <>
+                    <StatBadge icon="fas fa-trophy" label="Resultado" value={treino.dados.resultado} color="bg-yellow-500" />
+                    <div className="flex items-center gap-2 bg-black/40 text-white px-3 py-1.5 rounded text-[11px] font-bold uppercase italic border border-white/10">
+                       <span>Eu {treino.dados.placarMeu}</span>
+                       <span className="text-red-500">x</span>
+                       <span>{treino.dados.placarAdv} Adv</span>
+                    </div>
+                  </>
+                )}
+
               </div>
 
               {treino.obs && (
@@ -84,6 +144,7 @@ export function MeusTreinos() {
                   {treino.obs}
                 </p>
               )}
+              </div>
             </div>
           </article>
         ))}

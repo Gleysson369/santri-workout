@@ -15,8 +15,12 @@ export function Login({ onLogin }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0d10] flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-[#14191e] border border-red-500/20 p-10 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background Image & Overlay */}
+      <div className="absolute inset-0 bg-[url('/bg-workout.png')] bg-cover bg-center bg-fixed z-0"></div>
+      <div className="absolute inset-0 bg-black/70 z-0"></div>
+
+      <div className="w-full max-w-md bg-[#14191e]/80 backdrop-blur-xl border border-red-500/20 p-10 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] relative z-10">
         <header className="text-center mb-10">
           <h1 className="text-4xl font-light italic uppercase tracking-tighter text-white">
             Santri <span className="font-bold text-red-500 drop-shadow-[0_0_10px_#ff0000]">Workout</span>

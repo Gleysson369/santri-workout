@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { RankItem, StatItem } from '../components/TrainingComponents';
 
 export function Musculacao() {
@@ -17,66 +18,9 @@ export function Musculacao() {
             <h3 className="text-red-500 font-bold mb-6 uppercase tracking-widest text-sm italic border-b border-red-500/10 pb-2">Novo Registro de Força</h3>
             
             <div className="space-y-4">
-              {/* Linha 1: Data e Tempo */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-[10px] text-gray-500 uppercase font-bold mb-1 block">Data</label>
-                  <input type="date" className="w-full bg-black/40 border border-gray-800 p-2 rounded text-white text-xs focus:border-red-500 outline-none" />
-                </div>
-                <div>
-                  <label className="text-[10px] text-gray-500 uppercase font-bold mb-1 block">Duração</label>
-                  <input type="time" className="w-full bg-black/40 border border-gray-800 p-2 rounded text-white text-xs focus:border-red-500 outline-none" />
-                </div>
-              </div>
-
-              {/* Modalidade */}
-              <div>
-                <label className="text-[10px] text-gray-500 uppercase font-bold mb-1 block">Modalidade</label>
-                <select className="w-full bg-black/40 border border-gray-800 p-2 rounded text-white text-xs focus:border-red-500 outline-none">
-                  <option className="bg-gray-900">Musculação</option>
-                  <option className="bg-gray-900">CrossFit</option>
-                  <option className="bg-gray-900">Calistenia</option>
-                  <option className="bg-gray-900">Treinamento Funcional</option>
-                  <option className="bg-gray-900">HIIT</option>
-                  <option className="bg-gray-900">Powerlifting</option>
-                  <option className="bg-gray-900">Levantamento Olímpico (LPO)</option>
-                  <option className="bg-gray-900">Pilates</option>
-                  <option className="bg-gray-900">Bodybuilding</option>
-                </select>
-              </div>
-
-              {/* Divisão de Treino */}
-              <div>
-                <label className="text-[10px] text-gray-500 uppercase font-bold mb-1 block">Divisão/Grupamento</label>
-                <select className="w-full bg-black/40 border border-gray-800 p-2 rounded text-white text-xs focus:border-red-500 outline-none">
-                  <optgroup label="Superiores" className="bg-gray-900 text-red-500">
-                    <option value="sup_completo">Superiores (Peito, Costas, Ombros, Braços, Core)</option>
-                  </optgroup>
-                  <optgroup label="Inferiores" className="bg-gray-900 text-red-500">
-                    <option value="inf_completo">Inferiores (Quadríceps, Posterior, Glúteos, Panturrilhas, Core)</option>
-                  </optgroup>
-                  <optgroup label="Outros" className="bg-gray-900 text-red-500">
-                    <option value="full_body">Corpo Inteiro (Full Body)</option>
-                    <option value="hybrid">Mais de um tipo (Híbrido)</option>
-                  </optgroup>
-                </select>
-              </div>
-
-              {/* Imagem */}
-              <div>
-                <label className="text-[10px] text-gray-500 uppercase font-bold mb-1 block">Foto do Shape/Treino</label>
-                <input type="file" className="w-full text-[10px] text-gray-500 file:bg-red-600 file:text-white file:rounded file:border-0 file:px-2 file:py-1 cursor-pointer" />
-              </div>
-
-              {/* Observação */}
-              <div>
-                <label className="text-[10px] text-gray-500 uppercase font-bold mb-1 block">Observações / Relato</label>
-                <textarea rows="3" placeholder="Ex: Supino 40kg cada lado, foco em progressão..." className="w-full bg-black/40 border border-gray-800 p-2 rounded text-white text-xs focus:border-red-500 outline-none resize-none"></textarea>
-              </div>
-
-              <button className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded shadow-[0_0_15px_rgba(220,38,38,0.3)] transition-all uppercase tracking-tighter italic text-sm">
-                Registrar Treino
-              </button>
+              <Link to="/MinhasFichas" className="w-full block text-center bg-red-600 hover:bg-red-700 text-white font-black py-3 rounded shadow-[0_0_15px_rgba(220,38,38,0.3)] transition-all uppercase tracking-tighter italic text-sm">
+                Minhas Fichas
+              </Link>
             </div>
           </div>
 
@@ -112,25 +56,50 @@ export function Musculacao() {
 
             <div className="flex flex-col md:flex-row gap-6">
               {/* Foto do Treino (Vertical) */}
-              <div className="w-full md:w-56 h-80 rounded-xl overflow-hidden border border-white/5 bg-black/40 shrink-0">
+              <div className="w-full md:w-56 h-80 rounded-xl overflow-hidden border border-white/5 bg-black/40 shrink-0 relative group">
                 <img src="https://images.unsplash.com/photo-1581009146145-b5ef03a7403f?w=400" alt="Treino" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                
+                {/* Botão Editar Foto */}
+                <button className="absolute top-3 right-3 bg-black/60 hover:bg-red-600 text-white w-8 h-8 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-all cursor-pointer shadow-lg backdrop-blur-sm border border-white/10">
+                  <i className="fas fa-camera text-xs"></i>
+                </button>
               </div>
 
               {/* Detalhes do Treino */}
               <div className="flex-1 space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                   <div className="bg-black/40 p-3 rounded-lg border border-white/5">
-                      <span className="text-gray-500 text-[10px] uppercase font-bold block mb-1">Duração</span>
-                      <span className="text-white font-black italic text-lg">01:15:00</span>
+                
+                {/* Novas Métricas Detalhadas */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                   <div className="bg-black/40 p-2 rounded-lg border border-white/5 text-center">
+                      <span className="text-gray-500 text-[9px] uppercase font-bold block mb-1">Tempo Total</span>
+                      <span className="text-white font-black italic text-sm">01:15:00</span>
                    </div>
-                   <div className="bg-black/40 p-3 rounded-lg border border-white/5">
-                      <span className="text-gray-500 text-[10px] uppercase font-bold block mb-1">Grupamento</span>
-                      <span className="text-red-500 font-black italic text-sm uppercase">Superiores</span>
+                   <div className="bg-black/40 p-2 rounded-lg border border-white/5 text-center">
+                      <span className="text-gray-500 text-[9px] uppercase font-bold block mb-1">Descanso</span>
+                      <span className="text-red-500 font-black italic text-sm">25:00</span>
+                   </div>
+                   <div className="bg-black/40 p-2 rounded-lg border border-white/5 text-center">
+                      <span className="text-gray-500 text-[9px] uppercase font-bold block mb-1">Tempo/Série</span>
+                      <span className="text-white font-black italic text-sm">45s</span>
+                   </div>
+                   <div className="bg-black/40 p-2 rounded-lg border border-white/5 text-center">
+                      <span className="text-gray-500 text-[9px] uppercase font-bold block mb-1">Tempo/Exer</span>
+                      <span className="text-white font-black italic text-sm">12:00</span>
                    </div>
                 </div>
 
-                <div className="bg-black/40 p-4 rounded-lg border border-red-500/20">
-                   <span className="text-gray-500 text-[10px] uppercase font-bold block mb-2 underline decoration-red-500/50">Relato do Atleta</span>
+                <div className="bg-black/40 p-3 rounded-lg border border-white/5 flex justify-between items-center">
+                   <span className="text-gray-500 text-[10px] uppercase font-bold">Grupamento</span>
+                   <span className="text-red-500 font-black italic text-sm uppercase">Superiores</span>
+                </div>
+
+                <div className="bg-black/40 p-4 rounded-lg border border-red-500/20 relative group">
+                   <div className="flex justify-between items-center mb-2">
+                     <span className="text-gray-500 text-[10px] uppercase font-bold block underline decoration-red-500/50">Relato do Atleta</span>
+                     <button className="text-gray-500 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all cursor-pointer" title="Editar Relato">
+                       <i className="fas fa-pen text-xs"></i>
+                     </button>
+                   </div>
                    <p className="text-gray-300 text-sm italic leading-relaxed">
                      "Foco total em Peito e Tríceps. Supino reto com 100kg totais, 4 séries de 8-10 reps. Pump absurdo!"
                    </p>
