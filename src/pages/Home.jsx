@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ActivityRing } from '../components/ActivityRing';
 import { useState, useEffect } from 'react';
+import { Footer } from '../components/Footer';
 
 export function Home() {
   // Simulação de dados integrados (Idealmente viriam de um Context/Redux)
@@ -46,28 +47,87 @@ export function Home() {
   }, []);
 
   return (
-    <div className="h-full overflow-y-auto custom-scrollbar p-4 lg:p-8 animate-fadeIn pb-24">
+    <div className="p-4 lg:p-8 animate-fadeIn pb-24">
       
       {/* HEADER */}
       <header className="mb-8 flex justify-between items-end">
         <div>
-          <h1 className="text-4xl font-light italic uppercase tracking-tighter text-white leading-none">
-            Red-G <span className="font-bold text-red-500 drop-shadow-[0_0_10px_#ff0000]">Dashboard</span>
+          <h1 className="text-2xl md:text-4xl font-light italic uppercase tracking-tighter text-[var(--text-main)] leading-none">
+            Red-G <span className="font-bold text-[var(--color-primary)] drop-shadow-[0_0_10px_var(--color-primary)]">Dashboard</span>
           </h1>
-          <p className="text-gray-500 mt-2 uppercase text-[10px] tracking-[0.3em]">
+          <p className="text-[var(--text-muted)] mt-2 uppercase text-[10px] tracking-[0.3em]">
             Visão Geral de Performance
           </p>
         </div>
         <div className="text-right hidden sm:block">
-          <p className="text-white font-bold italic text-lg">{new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
+          <p className="text-[var(--text-main)] font-bold italic text-lg">{new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}</p>
         </div>
       </header>
 
+      {/* SEÇÃO DE NAVEGAÇÃO RÁPIDA (Activity Rings) - MOVIDO PARA CIMA */}
+      <div className="mb-8">
+        <h3 className="text-[var(--text-main)] text-sm font-bold uppercase italic tracking-widest mb-6 border-l-4 border-[var(--color-primary)] pl-3">
+          Acesso Rápido
+        </h3>
+        <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-start sm:gap-8">
+          
+          <Link to="/Esportes" className="group">
+             <div className="sm:hidden bg-[var(--bg-card)] border border-[var(--border-color)] p-4 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-blue-600 transition-colors h-full shadow-sm">
+                <i className="fas fa-running text-2xl text-blue-600"></i>
+                <span className="text-xs font-bold uppercase text-[var(--text-main)]">Esportes</span>
+             </div>
+             <div className="hidden sm:block transition-transform group-hover:scale-105 active:scale-95">
+                <ActivityRing icon="fa-running" label="Esportes" colorClass="border-t-blue-600 border-r-blue-600" shadowColor="#2563eb" />
+             </div>
+          </Link>
+
+          <Link to="/Musculacao" className="group">
+             <div className="sm:hidden bg-[var(--bg-card)] border border-[var(--border-color)] p-4 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-[var(--color-primary)] transition-colors h-full shadow-sm">
+                <i className="fas fa-dumbbell text-2xl text-[var(--color-primary)]"></i>
+                <span className="text-xs font-bold uppercase text-[var(--text-main)]">Musculação</span>
+             </div>
+             <div className="hidden sm:block transition-transform group-hover:scale-105 active:scale-95">
+                <ActivityRing icon="fa-dumbbell" label="Musculação" colorClass="border-t-[var(--color-primary)] border-r-[var(--color-primary)]" shadowColor="var(--color-primary)" />
+             </div>
+          </Link>
+
+          <Link to="/Dieta" className="group">
+             <div className="sm:hidden bg-[var(--bg-card)] border border-[var(--border-color)] p-4 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-green-500 transition-colors h-full shadow-sm">
+                <i className="fas fa-utensils text-2xl text-green-500"></i>
+                <span className="text-xs font-bold uppercase text-[var(--text-main)]">Dieta</span>
+             </div>
+             <div className="hidden sm:block transition-transform group-hover:scale-105 active:scale-95">
+                <ActivityRing icon="fa-utensils" label="Dieta" colorClass="border-t-green-500 border-r-green-500" shadowColor="#10b981" />
+             </div>
+          </Link>
+
+          <Link to="/Metas" className="group">
+             <div className="sm:hidden bg-[var(--bg-card)] border border-[var(--border-color)] p-4 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-orange-500 transition-colors h-full shadow-sm">
+                <i className="fas fa-bullseye text-2xl text-orange-500"></i>
+                <span className="text-xs font-bold uppercase text-[var(--text-main)]">Metas</span>
+             </div>
+             <div className="hidden sm:block transition-transform group-hover:scale-105 active:scale-95">
+                <ActivityRing icon="fa-bullseye" label="Metas" colorClass="border-t-orange-500 border-r-orange-500" shadowColor="#f97316" />
+             </div>
+          </Link>
+
+          <Link to="/MeusTreinos" className="group">
+             <div className="sm:hidden bg-[var(--bg-card)] border border-[var(--border-color)] p-4 rounded-xl flex flex-col items-center justify-center gap-2 hover:border-gray-500 transition-colors h-full shadow-sm">
+                <i className="fas fa-history text-2xl text-gray-500"></i>
+                <span className="text-xs font-bold uppercase text-[var(--text-main)]">Histórico</span>
+             </div>
+             <div className="hidden sm:block transition-transform group-hover:scale-105 active:scale-95">
+                <ActivityRing icon="fa-history" label="Histórico" colorClass="border-t-gray-500 border-r-gray-500" shadowColor="#6b7280" />
+             </div>
+          </Link>
+        </div>
+      </div>
+
       {/* GRID PRINCIPAL */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
         
         {/* CARD 1: RESUMO DIETA (MACROS) */}
-        <div className="bg-[#14191e]/80 backdrop-blur-xl p-6 rounded-3xl border border-white/5 relative overflow-hidden group hover:border-green-500/30 transition-all">
+        <div className="bg-[var(--bg-card)]/80 backdrop-blur-xl p-6 rounded-3xl border border-[var(--border-color)] relative overflow-hidden group hover:border-green-500/30 transition-all">
           <div className="absolute top-0 right-0 p-4 opacity-10">
             <i className="fas fa-apple-alt text-6xl text-green-500"></i>
           </div>
@@ -76,8 +136,8 @@ export function Home() {
           </h3>
           
           <div className="flex items-end gap-2 mb-4">
-            <span className="text-4xl font-black text-white italic">{dashboardData.dieta.kcalAtual}</span>
-            <span className="text-gray-500 text-xs font-bold mb-2">/ {dashboardData.dieta.kcalMeta} kcal</span>
+            <span className="text-4xl font-black text-[var(--text-main)] italic">{dashboardData.dieta.kcalAtual}</span>
+            <span className="text-[var(--text-muted)] text-xs font-bold mb-2">/ {dashboardData.dieta.kcalMeta} kcal</span>
           </div>
 
           {/* Barra de Progresso Kcal */}
@@ -96,36 +156,36 @@ export function Home() {
         </div>
         
         {/* CARD 2: RESUMO TREINOS (MUSCULAÇÃO) */}
-        <div className="bg-[#14191e]/80 backdrop-blur-xl p-6 rounded-3xl border border-white/5 relative overflow-hidden group hover:border-red-500/30 transition-all">
+        <div className="bg-[var(--bg-card)]/80 backdrop-blur-xl p-6 rounded-3xl border border-[var(--border-color)] relative overflow-hidden group hover:border-[var(--color-primary)]/30 transition-all">
           <div className="absolute top-0 right-0 p-4 opacity-10">
-            <i className="fas fa-dumbbell text-6xl text-red-500"></i>
+            <i className="fas fa-dumbbell text-6xl text-[var(--color-primary)]"></i>
           </div>
-          <h3 className="text-red-500 font-black uppercase text-xs tracking-widest mb-4 flex items-center gap-2">
+          <h3 className="text-[var(--color-primary)] font-black uppercase text-xs tracking-widest mb-4 flex items-center gap-2">
             <i className="fas fa-heartbeat"></i> Musculação
           </h3>
 
           <div className="mb-6">
-            <p className="text-gray-400 text-[10px] uppercase font-bold">Último Treino</p>
-            <p className="text-xl font-black text-white italic uppercase">{dashboardData.musculacao.ultimoTreino}</p>
+            <p className="text-[var(--text-muted)] text-[10px] uppercase font-bold">Último Treino</p>
+            <p className="text-xl font-black text-[var(--text-main)] italic uppercase">{dashboardData.musculacao.ultimoTreino}</p>
           </div>
 
-          <div className="flex justify-between items-end border-t border-white/5 pt-4">
+          <div className="flex justify-between items-end border-t border-[var(--border-color)] pt-4">
             <div>
-              <p className="text-gray-400 text-[10px] uppercase font-bold">Frequência Semanal</p>
+              <p className="text-[var(--text-muted)] text-[10px] uppercase font-bold">Frequência Semanal</p>
               <div className="flex items-baseline gap-1">
-                <span className="text-3xl font-black text-white italic">{dashboardData.musculacao.frequenciaSemanal}</span>
-                <span className="text-gray-600 text-xs font-bold">/ {dashboardData.musculacao.metaSemanal}</span>
+                <span className="text-3xl font-black text-[var(--text-main)] italic">{dashboardData.musculacao.frequenciaSemanal}</span>
+                <span className="text-[var(--text-muted)] text-xs font-bold">/ {dashboardData.musculacao.metaSemanal}</span>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-gray-400 text-[10px] uppercase font-bold">Volume Total</p>
-              <p className="text-xl font-black text-red-500 italic">{dashboardData.musculacao.volumeTotal}</p>
+              <p className="text-[var(--text-muted)] text-[10px] uppercase font-bold">Volume Total</p>
+              <p className="text-xl font-black text-[var(--color-primary)] italic">{dashboardData.musculacao.volumeTotal}</p>
             </div>
           </div>
         </div>
 
         {/* CARD 3: RESUMO ESPORTES */}
-        <div className="bg-[#14191e]/80 backdrop-blur-xl p-6 rounded-3xl border border-white/5 relative overflow-hidden group hover:border-blue-500/30 transition-all">
+        <div className="bg-[var(--bg-card)]/80 backdrop-blur-xl p-6 rounded-3xl border border-[var(--border-color)] relative overflow-hidden group hover:border-blue-500/30 transition-all">
           <div className="absolute top-0 right-0 p-4 opacity-10">
             <i className="fas fa-running text-6xl text-blue-500"></i>
           </div>
@@ -134,55 +194,31 @@ export function Home() {
           </h3>
 
           <div className="mb-6">
-            <p className="text-gray-400 text-[10px] uppercase font-bold">Atividade Recente</p>
-            <p className="text-xl font-black text-white italic uppercase">{dashboardData.esporte.ultimo}</p>
+            <p className="text-[var(--text-muted)] text-[10px] uppercase font-bold">Atividade Recente</p>
+            <p className="text-xl font-black text-[var(--text-main)] italic uppercase">{dashboardData.esporte.ultimo}</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 border-t border-white/5 pt-4">
+          <div className="grid grid-cols-2 gap-4 border-t border-[var(--border-color)] pt-4">
             <div>
-              <p className="text-gray-400 text-[10px] uppercase font-bold">Distância (Sem)</p>
-              <p className="text-2xl font-black text-white italic">{dashboardData.esporte.distanciaSemanal}</p>
+              <p className="text-[var(--text-muted)] text-[10px] uppercase font-bold">Distância (Sem)</p>
+              <p className="text-2xl font-black text-[var(--text-main)] italic">{dashboardData.esporte.distanciaSemanal}</p>
             </div>
             <div>
-              <p className="text-gray-400 text-[10px] uppercase font-bold">Tempo Ativo</p>
+              <p className="text-[var(--text-muted)] text-[10px] uppercase font-bold">Tempo Ativo</p>
               <p className="text-2xl font-black text-blue-500 italic">{dashboardData.esporte.tempoAtividade}</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* SEÇÃO DE NAVEGAÇÃO RÁPIDA (Activity Rings) */}
-      <div className="mb-8">
-        <h3 className="text-white text-sm font-bold uppercase italic tracking-widest mb-6 border-l-4 border-red-600 pl-3">
-          Acesso Rápido
-        </h3>
-        <div className="flex flex-wrap justify-center sm:justify-start gap-8">
-          <Link to="/Esportes" className="transition-transform hover:scale-105 active:scale-95">
-            <ActivityRing icon="fa-running" label="Esportes" colorClass="border-t-blue-600 border-r-blue-600" shadowColor="#2563eb" />
-          </Link>
-          <Link to="/Musculacao" className="transition-transform hover:scale-105 active:scale-95">
-            <ActivityRing icon="fa-dumbbell" label="Musculação" colorClass="border-t-red-600 border-r-red-600" shadowColor="#dc2626" />
-          </Link>
-          <Link to="/Dieta" className="transition-transform hover:scale-105">
-            <ActivityRing icon="fa-utensils" label="Dieta" colorClass="border-t-green-500 border-r-green-500" shadowColor="#10b981" />
-          </Link>
-          <Link to="/Metas" className="transition-transform hover:scale-105">
-            <ActivityRing icon="fa-bullseye" label="Metas" colorClass="border-t-orange-500 border-r-orange-500" shadowColor="#f97316" />
-          </Link>
-          <Link to="/MeusTreinos" className="transition-transform hover:scale-105">
-            <ActivityRing icon="fa-history" label="Histórico" colorClass="border-t-gray-500 border-r-gray-500" shadowColor="#6b7280" />
-          </Link>
-        </div>
-      </div>
-
       {/* GRÁFICO DE EVOLUÇÃO (MOCK) */}
-      <div className="bg-[#14191e]/60 border border-white/5 rounded-3xl p-6">
+      <div className="bg-[var(--bg-card)]/60 border border-[var(--border-color)] rounded-3xl p-6">
         <div className="flex justify-between items-center mb-6">
-          <h3 className="text-white text-sm font-bold uppercase italic tracking-widest">
+          <h3 className="text-[var(--text-main)] text-sm font-bold uppercase italic tracking-widest">
             Evolução Semanal
           </h3>
           <div className="flex gap-2">
-            <span className="text-[10px] uppercase font-bold text-red-500 flex items-center gap-1"><div className="w-2 h-2 bg-red-500 rounded-full"></div> Musculação</span>
+            <span className="text-[10px] uppercase font-bold text-[var(--color-primary)] flex items-center gap-1"><div className="w-2 h-2 bg-[var(--color-primary)] rounded-full"></div> Musculação</span>
             <span className="text-[10px] uppercase font-bold text-blue-500 flex items-center gap-1"><div className="w-2 h-2 bg-blue-500 rounded-full"></div> Cardio</span>
           </div>
         </div>
@@ -195,15 +231,17 @@ export function Home() {
             return (
               <div key={dia} className="flex flex-col items-center gap-2 flex-1 group cursor-pointer">
                 <div className="w-full flex gap-1 items-end justify-center h-full relative">
-                  <div className="w-2 sm:w-4 bg-red-600 rounded-t-sm transition-all group-hover:bg-red-500" style={{ height: `${hMusc}%` }}></div>
+                  <div className="w-2 sm:w-4 bg-[var(--color-primary)] rounded-t-sm transition-all group-hover:bg-[var(--color-primary-hover)]" style={{ height: `${hMusc}%` }}></div>
                   <div className="w-2 sm:w-4 bg-blue-600 rounded-t-sm transition-all group-hover:bg-blue-500" style={{ height: `${hCardio}%` }}></div>
                 </div>
-                <span className="text-[10px] text-gray-500 font-bold uppercase">{dia}</span>
+                <span className="text-[10px] text-[var(--text-muted)] font-bold uppercase">{dia}</span>
               </div>
             )
           })}
         </div>
       </div>
+
+      <Footer />
 
     </div>
   );
@@ -211,8 +249,8 @@ export function Home() {
 
 function MacroItem({ label, val, color }) {
   return (
-    <div className="bg-black/20 rounded-lg p-2">
-      <p className="text-[9px] text-gray-500 uppercase font-bold">{label}</p>
+    <div className="bg-[var(--bg-main)]/20 rounded-lg p-2">
+      <p className="text-[9px] text-[var(--text-muted)] uppercase font-bold">{label}</p>
       <p className={`text-lg font-black italic ${color}`}>{val}</p>
     </div>
   );

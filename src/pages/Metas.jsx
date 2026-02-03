@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useToast } from '../components/ToastContext';
 
 export function Metas() {
   const [abaAtiva, setAbaAtiva] = useState('mensal');
+  const { addToast } = useToast();
 
   // Estado inicial com estrutura para todas as categorias e períodos
   const [metas, setMetas] = useState({
@@ -49,31 +51,31 @@ export function Metas() {
 
   const salvarMetas = () => {
     localStorage.setItem('santri_metas_db', JSON.stringify(metas));
-    alert(`Metas ${abaAtiva}s atualizadas e sincronizadas!`);
+    addToast(`Metas ${abaAtiva}s atualizadas e sincronizadas!`, 'success');
   };
 
   // Helper para acessar os dados atuais de forma limpa
   const dadosAtuais = metas[abaAtiva];
 
   return (
-    <div className="animate-fadeIn pb-10">
+    <div className="animate-fadeIn p-4 lg:p-8 pb-10">
       <header className="mb-8">
-        <h2 className="text-3xl font-bold italic text-white uppercase tracking-tighter">
-          Performance <span className="text-red-500 drop-shadow-[0_0_8px_#ff0000]">Metas</span>
+        <h2 className="text-2xl md:text-3xl font-bold italic text-[var(--text-main)] uppercase tracking-tighter">
+          Performance <span className="text-[var(--color-primary)] drop-shadow-[0_0_8px_var(--color-primary)]">Metas</span>
         </h2>
-        <div className="h-1 w-20 bg-red-600 mt-2 shadow-[0_0_10px_#ff0000]"></div>
+        <div className="h-1 w-20 bg-[var(--color-primary)] mt-2 shadow-[0_0_10px_var(--color-primary)]"></div>
       </header>
 
       {/* SELETOR DE PERÍODO (ABAS) */}
-      <div className="flex gap-4 mb-8 bg-black/20 p-1 rounded-xl border border-white/5 w-fit">
+      <div className="flex gap-4 mb-8 bg-[var(--bg-main)]/20 p-1 rounded-xl border border-[var(--border-color)] w-fit">
         {['semanal', 'mensal', 'anual'].map((periodo) => (
           <button
             key={periodo}
             onClick={() => setAbaAtiva(periodo)}
             className={`px-8 py-2 rounded-lg text-xs font-black uppercase tracking-widest transition-all ${
               abaAtiva === periodo 
-              ? 'bg-red-600 text-white shadow-[0_0_15px_rgba(220,38,38,0.4)]' 
-              : 'text-gray-500 hover:text-white'
+              ? 'bg-[var(--color-primary)] text-white shadow-[0_0_15px_var(--shadow-color)]' 
+              : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
             }`}
           >
             {periodo}
@@ -110,7 +112,7 @@ export function Metas() {
           </MetaSection>
 
           {/* METAS MUSCULAÇÃO */}
-          <MetaSection title="Musculação & Força" icon="fa-dumbbell" color="text-red-500">
+          <MetaSection title="Musculação & Força" icon="fa-dumbbell" color="text-[var(--color-primary)]">
             <MetaInput 
               label="Frequência de Treino" unit="dias" placeholder="Ex: 5" 
               value={dadosAtuais.musculacao.frequencia} 
@@ -178,7 +180,7 @@ export function Metas() {
       <div className="mt-10 flex justify-end">
         <button 
           onClick={salvarMetas}
-          className="bg-white text-black font-black px-10 py-4 rounded-full uppercase italic hover:bg-red-600 hover:text-white transition-all shadow-xl cursor-pointer"
+          className="bg-[var(--bg-card)] text-[var(--text-main)] border border-[var(--border-color)] font-black px-10 py-4 rounded-full uppercase italic hover:bg-[var(--color-primary)] hover:text-white transition-all shadow-xl cursor-pointer"
         >
           Salvar Metas {abaAtiva}s
         </button>
@@ -190,7 +192,7 @@ export function Metas() {
 // Sub-componentes para manter o código limpo
 function MetaSection({ title, icon, color, children }) {
   return (
-    <div className="bg-[#14191e]/60 backdrop-blur-xl rounded-2xl border border-white/5 p-6 shadow-2xl overflow-hidden relative group">
+    <div className="bg-[var(--bg-card)]/60 backdrop-blur-xl rounded-2xl border border-[var(--border-color)] p-6 shadow-2xl overflow-hidden relative group">
       <div className={`absolute top-0 left-0 w-1 h-full bg-current ${color}`}></div>
       <h3 className={`text-xl font-black italic uppercase tracking-tighter mb-6 flex items-center gap-3 ${color}`}>
         <i className={`fas ${icon}`}></i> {title}
@@ -204,17 +206,17 @@ function MetaSection({ title, icon, color, children }) {
 
 function MetaInput({ label, unit, placeholder, value, onChange }) {
   return (
-    <div className="bg-black/30 p-3 rounded-lg border border-white/5 hover:border-white/10 transition-colors w-full">
-      <label className="text-[10px] text-gray-500 uppercase font-bold block mb-1">{label}</label>
+    <div className="bg-[var(--bg-main)]/30 p-3 rounded-lg border border-[var(--border-color)] hover:border-[var(--color-primary)]/30 transition-colors w-full">
+      <label className="text-[10px] text-[var(--text-muted)] uppercase font-bold block mb-1">{label}</label>
       <div className="flex items-center gap-2">
         <input 
           type="text" 
           placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="bg-transparent text-white font-bold italic w-full outline-none focus:text-red-500 transition-colors"
+          className="bg-transparent text-[var(--text-main)] font-bold italic w-full outline-none focus:text-[var(--color-primary)] transition-colors"
         />
-        <span className="text-[9px] text-gray-600 font-black uppercase italic">{unit}</span>
+        <span className="text-[9px] text-[var(--text-muted)] font-black uppercase italic">{unit}</span>
       </div>
     </div>
   );

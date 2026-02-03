@@ -10,7 +10,7 @@ export function MinhasFichas() {
   };
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto p-4 lg:p-8 pb-40">
        {/* Passamos a função de navegar para dentro do Manager */}
        <FichasManager onBackHome={voltarParaMusculacao} />
     </div>

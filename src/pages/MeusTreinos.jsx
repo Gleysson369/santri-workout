@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export function MeusTreinos() {
+export function MeusTreinos({ searchTerm }) {
   const [filtro, setFiltro] = useState('todas');
 
   // Simulação de dados (Isso viria do seu banco de dados futuramente)
@@ -54,23 +54,33 @@ export function MeusTreinos() {
     }
   ];
 
-  const treinosFiltrados = filtro === 'todas' 
+  const treinosFiltrados = (filtro === 'todas' 
     ? treinos 
-    : treinos.filter(t => t.modalidade.toLowerCase() === filtro || t.origem === filtro);
+    : treinos.filter(t => t.modalidade.toLowerCase() === filtro || t.origem === filtro))
+    .filter(t => {
+      if (!searchTerm) return true;
+      const term = searchTerm.toLowerCase();
+      return (
+        t.modalidade.toLowerCase().includes(term) ||
+        t.usuario.toLowerCase().includes(term) ||
+        (t.obs && t.obs.toLowerCase().includes(term))
+      );
+    });
 
   return (
-    <div className="animate-fadeIn">
-      <header className="mb-6">
-        <h2 className="text-3xl font-bold text-white flex items-center gap-3 tracking-tighter uppercase italic">
-          <i className="fas fa-clipboard-list text-cyan-400"></i> Meus <span className="text-red-500">Treinos</span>
+    <div className="animate-fadeIn p-4 lg:p-8">
+            <header className="mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold italic text-[var(--text-main)] uppercase tracking-tighter">
+          Meus <span className="text-[var(--color-primary)] drop-shadow-[0_0_8px_var(--color-primary)]"> Treinos</span>
         </h2>
-        <p className="text-gray-400 text-sm mt-2 font-bold uppercase tracking-widest">
+        <div className="h-1 w-20 bg-[var(--color-primary)] mt-2 shadow-[0_0_10px_var(--color-primary)]"></div>
+                <p className="text-[var(--text-muted)] text-sm mt-2 font-bold uppercase tracking-widest">
           {treinosFiltrados.length} treinos realizados
         </p>
       </header>
 
       {/* SISTEMA DE ABAS (Baseado na sua imagem) */}
-      <div className="flex flex-wrap gap-2 mb-8 p-1 bg-black/20 w-fit rounded-lg border border-white/5">
+      <div className="flex flex-wrap gap-2 mb-8 p-1 bg-[var(--bg-main)]/20 w-fit rounded-lg border border-[var(--border-color)]">
         <TabButton active={filtro === 'todas'} onClick={() => setFiltro('todas')} label="Todas" />
         <TabButton active={filtro === 'esporte'} onClick={() => setFiltro('esporte')} label="Esportes" icon="fas fa-running" />
         <TabButton active={filtro === 'musculacao'} onClick={() => setFiltro('musculacao')} label="Musculação" icon="fas fa-dumbbell" />
@@ -79,27 +89,27 @@ export function MeusTreinos() {
       {/* LISTA DE CARDS */}
       <div className="space-y-4">
         {treinosFiltrados.map((treino) => (
-          <article key={treino.id} className="bg-[#14191e]/80 backdrop-blur-md border border-white/5 rounded-xl p-6 relative group hover:border-red-500/30 transition-all">
-            <button className="absolute top-6 right-6 text-red-500 border border-red-500/30 px-4 py-1 rounded text-xs uppercase font-bold hover:bg-red-500 hover:text-white transition-colors">
+          <article key={treino.id} className="bg-[var(--bg-card)]/80 backdrop-blur-md border border-[var(--border-color)] rounded-xl p-6 relative group hover:border-[var(--color-primary)]/30 transition-all">
+            <button className="absolute top-6 right-6 text-[var(--color-primary)] border border-[var(--color-primary)]/30 px-4 py-1 rounded text-xs uppercase font-bold hover:bg-[var(--color-primary)] hover:text-white transition-colors">
               Excluir
             </button>
 
-            <span className="text-gray-500 text-xs font-bold block mb-2">{treino.data}</span>
-            <h4 className="text-white font-black italic uppercase tracking-tighter text-lg mb-4">
+            <span className="text-[var(--text-muted)] text-xs font-bold block mb-2">{treino.data}</span>
+            <h4 className="text-[var(--text-main)] font-black italic uppercase tracking-tighter text-base md:text-lg mb-4">
               {treino.usuario}
             </h4>
 
             <div className="flex flex-col md:flex-row gap-6">
               {/* Se tiver imagem, exibe */}
               {treino.imagem && (
-                <div className="w-full md:w-32 h-32 rounded-lg overflow-hidden border border-white/10 shrink-0">
+                <div className="w-full md:w-32 h-32 rounded-lg overflow-hidden border border-[var(--border-color)] shrink-0">
                   <img src={treino.imagem} alt="Registro" className="w-full h-full object-cover" />
                 </div>
               )}
 
               <div className="flex-1 flex flex-col gap-4">
-              <div className="flex items-center gap-2 text-white font-bold italic">
-                <i className={`${treino.icon} text-red-500`}></i>
+              <div className="flex items-center gap-2 text-[var(--text-main)] font-bold italic">
+                <i className={`${treino.icon} text-[var(--color-primary)]`}></i>
                 <span>{treino.modalidade}</span>
                 {treino.origem === 'musculacao' && <span className="text-gray-500 text-sm">• {treino.dados.ficha}</span>}
               </div>
@@ -129,9 +139,9 @@ export function MeusTreinos() {
                 {treino.origem === 'esporte' && treino.tipoRegistro === 'pontos' && (
                   <>
                     <StatBadge icon="fas fa-trophy" label="Resultado" value={treino.dados.resultado} color="bg-yellow-500" />
-                    <div className="flex items-center gap-2 bg-black/40 text-white px-3 py-1.5 rounded text-[11px] font-bold uppercase italic border border-white/10">
+                    <div className="flex items-center gap-2 bg-[var(--bg-main)]/40 text-[var(--text-main)] px-3 py-1.5 rounded text-[11px] font-bold uppercase italic border border-[var(--border-color)]">
                        <span>Eu {treino.dados.placarMeu}</span>
-                       <span className="text-red-500">x</span>
+                       <span className="text-[var(--color-primary)]">x</span>
                        <span>{treino.dados.placarAdv} Adv</span>
                     </div>
                   </>
@@ -140,7 +150,7 @@ export function MeusTreinos() {
               </div>
 
               {treino.obs && (
-                <p className="text-gray-400 text-sm italic mt-2 border-l-2 border-gray-700 pl-4 uppercase font-medium tracking-tight">
+                <p className="text-[var(--text-muted)] text-sm italic mt-2 border-l-2 border-gray-700 pl-4 uppercase font-medium tracking-tight">
                   {treino.obs}
                 </p>
               )}
@@ -161,7 +171,7 @@ function TabButton({ active, onClick, label, icon }) {
       className={`px-6 py-2 rounded-md text-xs font-bold uppercase tracking-widest transition-all flex items-center gap-2 ${
         active 
         ? 'bg-cyan-900/40 text-cyan-400 border border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]' 
-        : 'text-gray-500 hover:text-white hover:bg-white/5'
+        : 'text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-main)]/5'
       }`}
     >
       {icon && <i className={icon}></i>}

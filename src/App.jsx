@@ -1,48 +1,85 @@
-import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useState } from 'react';
+
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+import { Home } from './pages/Home';
+import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
+import { Perfil } from './pages/perfil';
+import { Configuracoes } from './pages/Configuracoes';
+import { Esportes } from './pages/Esportes';
+import { Musculacao } from './pages/Musculacao';
+import { Dieta } from './pages/Dieta';
+import { MeusTreinos } from './pages/MeusTreinos';
+import { Metas } from './pages/Metas';
+import { MinhasFichas } from './pages/MinhasFichas';
 
-// Imports das páginas
-import { Home } from './pages/Home.jsx';
-import { Musculacao } from './pages/Musculacao.jsx';
-import { MeusTreinos } from './pages/MeusTreinos.jsx';
-import { Esportes } from './pages/Esportes.jsx';
-import { Metas } from './pages/Metas.jsx';
-import { MinhasFichas } from './pages/MinhasFichas.jsx';
-import { Dieta } from './pages/Dieta.jsx';
-import { Login } from './pages/Login.jsx';
+export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-function App() {
-  const [isLogged, setIsLogged] = useState(false);
-  const handleLogin = () => setIsLogged(true);
-  const handleLogout = () => setIsLogged(false);
+  const handleLogin = () => setIsAuthenticated(true);
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setSearchTerm(''); // Limpa a busca ao sair
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <Router>
-      {!isLogged ? (
-        <Routes>
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
-      ) : (
-        <div className="flex min-h-screen bg-[#0a0d10] text-white font-sans selection:bg-red-500/30">
-          <Sidebar onLogout={handleLogout} />
-          <main className="flex-1 p-10 overflow-y-auto overflow-x-hidden">
+      <div className="flex min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] font-sans selection:bg-[var(--color-primary)]/30 transition-colors duration-300">
+        {isAuthenticated && (
+          <Sidebar 
+            onLogout={handleLogout} 
+            isMobileOpen={isMobileMenuOpen} 
+            setIsMobileOpen={setIsMobileMenuOpen} 
+          />
+        )}
+        
+        <main className={`flex-1 flex flex-col relative ${isAuthenticated ? 'overflow-hidden h-screen' : ''}`}>
+          
+          {/* Header Global */}
+          {isAuthenticated && (
+            <Header 
+              onLogout={handleLogout} 
+              searchTerm={searchTerm} 
+              onSearch={setSearchTerm} 
+              onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            />
+          )}
+
+          {/* Área de Conteúdo com Scroll */}
+          <div className="flex-1 overflow-y-auto custom-scrollbar relative">
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/Esportes" element={<Esportes />} />
-              <Route path="/Musculacao" element={<Musculacao />} />
-              <Route path="/MeusTreinos" element={<MeusTreinos />} />
-              <Route path="/Metas" element={<Metas />} />
-              <Route path="/MinhasFichas" element={<MinhasFichas />} />
-              <Route path="/Dieta" element={<Dieta />} />
-              <Route path="*" element={<Navigate to="/" />} />
+              {/* Rotas Públicas */}
+              <Route 
+                path="/login" 
+                element={!isAuthenticated ? <Login onLogin={handleLogin} /> : <Navigate to="/" />} 
+              />
+              <Route 
+                path="/register" 
+                element={!isAuthenticated ? <Register /> : <Navigate to="/" />} 
+              />
+
+              {/* Rotas Privadas */}
+              <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
+              <Route path="/profile" element={isAuthenticated ? <Perfil /> : <Navigate to="/login" />} />
+              <Route path="/settings" element={isAuthenticated ? <Configuracoes /> : <Navigate to="/login" />} />
+              <Route path="/esportes" element={isAuthenticated ? <Esportes searchTerm={searchTerm} /> : <Navigate to="/login" />} />
+              <Route path="/musculacao" element={isAuthenticated ? <Musculacao /> : <Navigate to="/login" />} />
+              <Route path="/dieta" element={isAuthenticated ? <Dieta /> : <Navigate to="/login" />} />
+              <Route path="/MeusTreinos" element={isAuthenticated ? <MeusTreinos searchTerm={searchTerm} /> : <Navigate to="/login" />} />
+              <Route path="/metas" element={isAuthenticated ? <Metas /> : <Navigate to="/login" />} />
+              <Route path="/MinhasFichas" element={isAuthenticated ? <MinhasFichas /> : <Navigate to="/login" />} />
+              
+              {/* Redirecionamento Padrão */}
+              <Route path="*" element={<Navigate to={isAuthenticated ? "/" : "/login"} />} />
             </Routes>
-          </main>
-        </div>
-      )}
+          </div>
+        </main>
+      </div>
     </Router>
   );
 }
-
-export default App;

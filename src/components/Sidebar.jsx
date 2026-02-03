@@ -1,16 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTheme } from './ThemeContext';
 
-export function Sidebar({ onLogout }) {
+export function Sidebar({ onLogout, isMobileOpen, setIsMobileOpen }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
+
+  // Fecha o menu mobile automaticamente ao mudar de rota (clicar em um link)
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setIsMobileOpen(false);
+    }
+  }, [location, setIsMobileOpen]);
 
   return (
-    <aside className={`${isCollapsed ? 'w-20' : 'w-64'} bg-[#0f0f0f]/80 backdrop-blur-md border-r border-red-500/20 h-screen transition-all duration-300 flex flex-col sticky top-0 z-50`}>
+    <>
+      {/* Overlay Escuro para Mobile */}
+      {isMobileOpen && (
+        <div 
+          className="fixed inset-0 bg-black/60 z-40 md:hidden backdrop-blur-sm transition-opacity"
+          onClick={() => setIsMobileOpen(false)}
+        ></div>
+      )}
+
+      <aside className={`
+        fixed md:sticky top-0 left-0 z-50 h-screen transition-all duration-300 flex flex-col
+        bg-[var(--bg-card)]/95 md:bg-[var(--bg-card)]/80 backdrop-blur-md border-r border-[var(--border-color)]
+        ${isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        ${isCollapsed ? 'md:w-20' : 'md:w-64'} w-64
+      `}>
       
       {/* BOTÃO COLAPSO */}
-      <div className="p-4 mb-6 flex justify-end">
-        <button onClick={() => setIsCollapsed(!isCollapsed)} className="text-red-600 cursor-pointer p-2 hover:scale-110 transition-transform">
+      <div className="p-4 mb-6 flex justify-end hidden md:flex">
+        <button onClick={() => setIsCollapsed(!isCollapsed)} className="text-[var(--color-primary)] cursor-pointer p-2 hover:scale-110 transition-transform">
           <i className={`fas ${isCollapsed ? 'fa-chevron-right' : 'fa-bars'} text-2xl`}></i>
         </button>
       </div>
@@ -37,19 +60,31 @@ export function Sidebar({ onLogout }) {
         </ul>
       </nav>
 
+      {/* TOGGLE TEMA */}
+      <div className="px-4 mb-2">
+        <button 
+          onClick={toggleTheme}
+          className="w-full flex items-center justify-center p-3 rounded-xl bg-[var(--bg-main)] border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--color-primary)] transition-all cursor-pointer"
+        >
+          <i className={`fas ${theme === 'dark' ? 'fa-sun' : 'fa-moon'} text-lg`}></i>
+          {!isCollapsed && <span className="ml-3 text-xs font-bold uppercase">{theme === 'dark' ? 'Modo Claro' : 'Modo Escuro'}</span>}
+        </button>
+      </div>
+
       {/* RODAPÉ / SAIR */}
-      <div className="mb-6 border-t border-red-900/20 pt-2">
+      <div className="mb-6 border-t border-[var(--border-color)] pt-2">
         <button 
           onClick={onLogout}
-          className="w-full flex items-center p-4 text-gray-500 hover:text-red-600 hover:bg-red-500/5 transition-all cursor-pointer group"
+          className="w-full flex items-center p-4 text-[var(--text-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 transition-all cursor-pointer group"
         >
-          <i className="fas fa-sign-out-alt w-8 text-center text-lg group-hover:drop-shadow-[0_0_8px_#ff0000]"></i>
+          <i className="fas fa-sign-out-alt w-8 text-center text-lg group-hover:drop-shadow-[0_0_8px_var(--color-primary)]"></i>
           {!isCollapsed && (
             <span className="ml-4 font-medium italic uppercase tracking-wider text-sm">Sair</span>
           )}
         </button>
       </div>
     </aside>
+    </>
   );
 }
 
@@ -62,9 +97,9 @@ function NavItem({ icon, label, isCollapsed, to, active, isSubItem }) {
         className={`
           flex items-center p-4 transition-all group border-l-4
           ${active 
-            ? 'text-red-500 bg-red-500/10 border-red-500 drop-shadow-[0_0_5px_rgba(255,0,0,0.3)]' 
-            : 'text-gray-400 border-transparent hover:text-red-400 hover:bg-red-500/5 hover:border-red-500/40'}
-          ${isSubItem ? 'pl-12 bg-black/20' : ''} 
+            ? 'text-[var(--color-primary)] bg-[var(--color-primary)]/10 border-[var(--color-primary)] drop-shadow-[0_0_5px_var(--shadow-color)]' 
+            : 'text-[var(--text-muted)] border-transparent hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 hover:border-[var(--color-primary)]/40'}
+          ${isSubItem ? 'pl-12 bg-[var(--bg-main)]/20' : ''} 
         `}
       >
         <i className={`fas ${icon} min-w-[32px] text-center text-lg group-hover:scale-110 transition-transform`}></i>
