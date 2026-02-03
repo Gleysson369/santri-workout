@@ -6,7 +6,7 @@ import { Register } from './pages/Register';
 import { Home } from './pages/Home';
 import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
-import { Perfil } from './pages/perfil';
+import { Perfil } from "./pages/Perfil";
 import { Configuracoes } from './pages/Configuracoes';
 import { Esportes } from './pages/Esportes';
 import { Musculacao } from './pages/Musculacao';
