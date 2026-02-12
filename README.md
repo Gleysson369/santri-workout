@@ -1,79 +1,83 @@
 # ⚡ RED-G Workout
 
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Online-green?style=for-the-badge)
-
-O **RED-G Workout** é um dashboard de alta performance focado em gestão de treinos e evolução física. Com uma interface inspirada na estética *Cyberpunk/Dark*, o sistema oferece uma experiência visual imersiva para o acompanhamento de metas, dietas e rotinas de exercícios.
+**RED-G Workout** is a high-performance dashboard focused on workout management and physical evolution. Featuring an interface inspired by *Cyberpunk/Dark* aesthetics, the system offers an immersive visual experience for tracking goals, diets, and exercise routines.
 
 ---
 
-## 🔗 Link do Projeto (Deploy)
+## 🔗 Project Link (Deploy)
 
-Acesse a versão online: **[https://santri-workout.vercel.app](https://santri-workout.vercel.app)**
-
----
-
-## 🚀 Funcionalidades
-
--   **Sistema de Login Seguro:** Acesso restrito via usuário e senha (ID: admin / Pass: 123).
--   **Dashboard de Atividades:** Visualização circular da intensidade de treinos (Corrida, Ciclismo e Musculação).
--   **Submenu Inteligente:** Navegação rápida entre treinos atuais e histórico de fichas.
--   **Gestão de Macros:** Seção dedicada para controle de dieta.
--   **Interface Responsiva:** Sidebar colapsável para otimização de espaço em diferentes dispositivos.
+Access the online version: **[https://santri-workout.vercel.app](https://santri-workout.vercel.app)**
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🚀 Features
 
-Este projeto foi construído utilizando o que há de mais moderno no ecossistema Web:
-
--   **React 19:** Biblioteca principal para construção da interface.
--   **Vite (Rolldown):** *Bundler* de próxima geração para um desenvolvimento ultra-rápido.
--   **Tailwind CSS 4:** Estilização moderna via utilitários diretamente no HTML.
--   **React Router Dom 7:** Gerenciamento de rotas e navegação SPA (*Single Page Application*).
--   **FontAwesome:** Conjunto de ícones para uma interface intuitiva.
+* **Secure Login System:** Restricted access via username and password (ID: admin / Pass: 123).
+* **Activity Dashboard:** Circular visualization of workout intensity (Running, Cycling, and Weightlifting).
+* **Smart Submenu:** Quick navigation between current workouts and training history.
+* **Macro Management:** Dedicated section for diet control.
+* **Responsive Interface:** Collapsible sidebar to optimize space across different devices.
 
 ---
 
-## 🔐 Credenciais de Teste
+## 🛠️ Technologies Used
 
-| Usuário | Senha |
-| :--- | :--- |
+This project was built using the most modern tools in the Web ecosystem:
+
+* **React 19:** Main library for building the user interface.
+* **Vite (Rolldown):** Next-generation bundler for ultra-fast development.
+* **Tailwind CSS 4:** Modern styling via utility classes directly in HTML.
+* **React Router Dom 7:** Route management and SPA (Single Page Application) navigation.
+* **FontAwesome:** Icon set for an intuitive interface.
+
+---
+
+## 🔐 Test Credentials
+
+| Username | Password |
+| --- | --- |
 | **admin** | **123** |
 
 ---
 
-## 📥 Instalação e Execução
+## 📥 Installation and Setup
 
-Para rodar este projeto localmente, siga os passos abaixo:
+To run this project locally, follow the steps below:
 
-1.  **Clone o repositório:**
-    ```bash
-    git clone [https://github.com/Gleysson369/santri-workout.git](https://github.com/Gleysson369/santri-workout.git)
-    ```
+1. **Clone the repository:**
+```bash
+git clone https://github.com/Gleysson369/santri-workout.git
 
-2.  **Entre na pasta do projeto:**
-    ```bash
-    cd santri-workout
-    ```
+```
 
-3.  **Instale as dependências:**
-    ```bash
-    npm install
-    ```
 
-4.  **Inicie o servidor de desenvolvimento:**
-    ```bash
-    npm run dev
-    ```
+2. **Navigate to the project folder:**
+```bash
+cd santri-workout
+
+```
+
+
+3. **Install dependencies:**
+```bash
+npm install
+
+```
+
+
+4. **Start the development server:**
+```bash
+npm run dev
+
+```
+
+
 
 ---
 
-## 👤 Autor
+## 👤 Author
 
-Desenvolvido por **Gleysson Flavio Gomes de Souza**.
+Developed by **Gleysson Flavio Gomes de Souza**.
 
--   GitHub: [@Gleysson369](https://github.com/Gleysson369)
--   LinkedIn: [Gleysson (Flavio Gomes) Souza]https://www.linkedin.com/in/gleysson-souza/.
+* GitHub: [@Gleysson369](https://github.com/Gleysson369)
+* LinkedIn: [Gleysson (Flavio Gomes) Souza]https://www.linkedin.com/in/gleysson-souza/.
