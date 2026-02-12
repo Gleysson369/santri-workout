@@ -76,7 +76,4 @@ Para rodar este projeto localmente, siga os passos abaixo:
 Desenvolvido por **Gleysson Flavio Gomes de Souza**.
 
 -   GitHub: [@Gleysson369](https://github.com/Gleysson369)
--   LinkedIn: [Seu Perfil Aqui]
-
----
-*Este projeto é parte de um estudo contínuo de desenvolvimento Web Moderno.*
+-   LinkedIn: [Gleysson (Flavio Gomes) Souza]https://www.linkedin.com/in/gleysson-souza/.
